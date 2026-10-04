@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="日常英会話でよく使う英語動詞50個を、意味・例文・確認問題・赤シート付きでまとめた単語帳。">
+<title>Everyday Verbs 50</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<style>
+/* Layout: a printed vocabulary book — one ruled row per verb (number+checks | headword | examples+drill), red-sheet toggle in a slim sticky bar */
+:root {
+  --paper: #FCFCFA;
+  --ink: #1B1B1A;
+  --sub: #6E6D68;
+  --rule: #E3E2DC;
+  --red: #D7381C;
+  --sheet: #C9302A;
+  --font-en: "Libre Caslon Text", "Times New Roman", Georgia, serif;
+  --font-ja: "BIZ UDPGothic", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #151514; --ink: #ECEBE6; --sub: #9B9A94; --rule: #2C2C2A; --red: #FF6A4D; --sheet: #A3261F;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #151514; --ink: #ECEBE6; --sub: #9B9A94; --rule: #2C2C2A; --red: #FF6A4D; --sheet: #A3261F;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--font-ja); font-size: 15px; line-height: 1.75;
+  padding-inline: 16px; padding-block: 0 72px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 980px; margin: 0 auto; }
+
+header { padding-block: 56px 28px; display: grid; gap: 14px; }
+.kicker { font-size: 13px; color: var(--sub); }
+h1 { margin: 0; font-family: var(--font-en); font-weight: 400; font-size: clamp(40px, 8vw, 72px); line-height: 1; letter-spacing: -0.01em; }
+h1 i { color: var(--red); }
+.lead { margin: 0; max-width: 58ch; color: var(--sub); }
+.howto { margin: 0; font-size: 13.5px; max-width: 62ch; }
+.howto .red { padding-inline: 2px; }
+
+.bar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--paper); border-block: 1px solid var(--ink);
+  padding-block: 10px; display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center;
+}
+.search {
+  flex: 1 1 200px; min-width: 0; font: 14px var(--font-ja); color: var(--ink);
+  background: transparent; border: 0; border-bottom: 1px solid var(--rule); padding: 6px 2px;
+}
+.search::placeholder { color: var(--sub); }
+.toggle {
+  font: 700 13px var(--font-ja); cursor: pointer; border: 1px solid var(--ink); border-radius: 2px;
+  background: transparent; color: var(--ink); padding: 6px 12px; display: inline-flex; align-items: center; gap: 8px;
+}
+.toggle::before { content: ""; width: 14px; height: 10px; border: 1px solid var(--sheet); background: transparent; }
+.toggle[aria-pressed="true"]::before { background: var(--sheet); }
+.tally { font-size: 12.5px; color: var(--sub); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.search:focus-visible, .toggle:focus-visible, .box:focus-visible, .red:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+
+.entry {
+  display: grid; grid-template-columns: 64px minmax(0, 220px) minmax(0, 1fr); gap: 8px 28px;
+  padding-block: 26px; border-bottom: 1px solid var(--rule);
+}
+.no { display: grid; gap: 8px; align-content: start; }
+.no-num { font-family: var(--font-en); font-size: 15px; font-variant-numeric: tabular-nums lining-nums; }
+.boxes { display: flex; gap: 4px; }
+.box {
+  width: 14px; height: 14px; padding: 0; border: 1px solid var(--sub); background: transparent; cursor: pointer; border-radius: 0;
+  display: grid; place-items: center; font-size: 11px; line-height: 1; color: var(--paper);
+}
+.box[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); }
+.box[aria-pressed="true"]::after { content: "✓"; }
+
+.head { display: grid; gap: 4px; align-content: start; min-width: 0; }
+.verb { font-family: var(--font-en); font-size: 34px; font-weight: 700; line-height: 1.05; }
+.forms { font-family: var(--font-en); font-style: italic; font-size: 14px; color: var(--sub); }
+.core { font-size: 13px; color: var(--sub); margin-top: 6px; }
+.core::before { content: "イメージ　"; }
+.senses { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 4px; font-size: 14px; line-height: 1.55; }
+.senses li { display: grid; grid-template-columns: 1.3em minmax(0, 1fr); }
+.s-n { color: var(--sub); }
+.s-f { display: block; font-family: var(--font-en); font-style: italic; font-size: 13px; color: var(--sub); }
+
+.body { display: grid; gap: 14px; min-width: 0; }
+.ex { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.en { font-family: var(--font-en); font-size: 17px; line-height: 1.5; display: block; }
+.en b { font-weight: 700; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.ja { display: block; font-size: 13.5px; color: var(--sub); }
+.note { margin: 0; font-size: 13.5px; padding-left: 1.3em; text-indent: -1.3em; }
+.note::before { content: "※ "; color: var(--red); }
+
+.drill { display: grid; gap: 10px; padding-top: 12px; border-top: 1px dashed var(--rule); }
+.drill-label { font-size: 12px; color: var(--sub); letter-spacing: .08em; }
+.q { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 0 6px; }
+.q-n { font-family: var(--font-en); font-size: 13px; color: var(--sub); padding-top: 3px; }
+.q-ja { font-size: 13.5px; }
+.q-en { grid-column: 2; font-family: var(--font-en); font-size: 17px; line-height: 1.5; }
+.q-en:not(.tr) .red { border-bottom: 1px solid var(--ink); padding-inline: 3px; }
+
+.red { color: var(--red); }
+body.sheet .red:not(.shown) { color: transparent; background: var(--sheet); cursor: pointer; border-radius: 1px; }
+body.sheet .q-en:not(.tr) .red:not(.shown) { border-bottom-color: var(--sheet); }
+body.sheet .red:not(.shown) * { color: transparent; }
+
+.empty { color: var(--sub); padding-block: 48px; }
+footer { margin-top: 56px; font-size: 13.5px; color: var(--sub); display: grid; gap: 6px; max-width: 62ch; }
+footer strong { color: var(--ink); }
+
+@media (max-width: 720px) {
+  .entry { grid-template-columns: minmax(0, 1fr); gap: 14px; padding-block: 22px; }
+  .no { grid-auto-flow: column; justify-content: space-between; align-items: center; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .red { transition: background-color .15s, color .15s; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">日常英会話の動詞 ・ 50語 ・ 例文100 ・ 確認問題150</div>
+    <h1>Everyday <i>Verbs</i> 50</h1>
+    <p class="lead">会話でよく使われ、1つ覚えると表現の幅が大きく広がる動詞を50個選びました。それぞれに、そのまま使える例文を2つと、空欄を埋める確認問題を2つ、日本語の文を丸ごと英語にする英訳問題を1つ付けています。</p>
+    <p class="howto">見出し語の下に主な意味をすべて載せています（イタリックはよく一緒に使う形）。赤い文字は「赤シート」で隠せます。隠れた部分はタップすると1つずつ表示されます。左の□は復習した回数のチェック用です（3回分）。</p>
+  </header>
+
+  <div class="bar">
+    <button class="toggle" id="sheet" type="button" aria-pressed="true">赤シート</button>
+    <input class="search" id="q" type="search" placeholder="動詞・日本語で検索" aria-label="検索">
+    <span class="tally" id="tally"></span>
+  </div>
+
+  <main id="list"></main>
+
+  <footer>
+    <strong>覚えるときのコツ</strong>
+    <span>1. 単語単体ではなく、例文ごと声に出して覚えましょう。</span>
+    <span>2. 赤シートをかけたまま意味と確認問題を答え、言えたら□にチェックを入れます。</span>
+    <span>3. 1日5個ずつ進めれば10日で1周。3周すれば□がすべて埋まります。</span>
+    <span>チェックの記録は、このブラウザにだけ保存されます。</span>
+  </footer>
+</div>
+
+<script>
+const VERBS = [
+  ["get","got / gotten","手に入れる・ある状態に変わる",[["I **got** a new phone yesterday.","昨日、新しいスマホを買った"],["It's **getting** cold. Let's go inside.","寒くなってきたね。中に入ろう"]],"「get + 形容詞」で状態の変化を表せます：get tired（疲れる）、get angry（怒る）",[["お腹が空いてきた","I'm ___ hungry.","getting"],["駅に着いたら電話して","Call me when you ___ to the station.","get"]]],
+  ["take","took / taken","取って自分の方へ持っていく",[["It **takes** 20 minutes to get to the station.","駅まで20分かかる"],["Can you **take** a picture of us?","写真を撮ってもらえますか？"]],null,[["薬を飲むのを忘れないで","Don't forget to ___ your medicine.","take"],["バスで行こう","Let's ___ the bus.","take"]]],
+  ["make","made / made","手を加えて形にする",[["I'll **make** dinner tonight.","今夜は私が夕食を作るよ"],["That **makes** sense.","なるほど、納得"]],"「make + 人 + 動詞」は「〜させる」：It made me laugh.（笑っちゃった）",[["間違えちゃった","I ___ a mistake.","made"],["予約をしたいのですが","I'd like to ___ a reservation.","make"]]],
+  ["have","had / had","持っている・経験する",[["I **have** a meeting at 3.","3時に会議がある"],["We **had** a great time at the party.","パーティーは本当に楽しかった"]],null,[["朝ご飯は食べた？","Did you ___ breakfast?","have"],["よい一日を！","___ a nice day!","Have"]]],
+  ["give","gave / given","相手に渡す",[["Can you **give** me a hand?","ちょっと手伝ってくれる？"],["I'll **give** you a call later.","あとで電話するね"]],null,[["考える時間をちょうだい","___ me some time to think.","Give"],["彼は誕生日に花をくれた","He ___ me flowers for my birthday.","gave"]]],
+  ["put","put / put","ある場所に置く",[["Where did you **put** my keys?","私の鍵どこに置いた？"],["**Put** on your jacket. It's cold outside.","上着を着て。外は寒いよ"]],null,[["靴を履いて","___ your shoes on.","Put"],["会議を延期した","We ___ off the meeting.","put"]]],
+  ["keep","kept / kept","その状態を保つ",[["**Keep** the change.","お釣りはとっておいて"],["Sorry to **keep** you waiting.","お待たせしてすみません"]],null,[["その調子で頑張って！","___ up the good work!","Keep"],["秘密にしておいてくれる？","Can you ___ it a secret?","keep"]]],
+  ["bring","brought / brought","こちらへ持ってくる・連れてくる",[["Can I **bring** a friend to the party?","パーティーに友達を連れて行ってもいい？"],["Don't forget to **bring** your umbrella.","傘を持ってくるのを忘れないで"]],"take は「向こうへ持っていく」、bring は「こちらへ持ってくる」",[["何を持っていけばいい？","What should I ___?","bring"],["お水を持ってきてもらえますか","Could you ___ me some water?","bring"]]],
+  ["go","went / gone","離れていく",[["I'm **going** to the gym after work.","仕事のあとジムに行く"],["How's it **going**?","調子どう？"]],null,[["すべて順調だよ","Everything is ___ well.","going"],["お先にどうぞ","___ ahead.","Go"]]],
+  ["come","came / come","話の中心に近づいてくる",[["**Come** here for a second.","ちょっとこっちに来て"],["I'm **coming**!","今行くよ！"]],"相手のところへ「行く」ときも英語では come を使います",[["どうぞ入って","___ in.","Come"],["出身はどこ？","Where do you ___ from?","come"]]],
+  ["let","let / let","させてあげる・許す",[["**Let** me know if you need anything.","何か必要なら教えてね"],["**Let's** grab some coffee.","コーヒーでも飲みに行こう"]],null,[["手伝わせて","___ me help you.","Let"],["彼が中に入れてくれた","He ___ me in.","let"]]],
+  ["leave","left / left","その場を離れる・残していく",[["What time do you **leave** for work?","何時に仕事に出るの？"],["I **left** my wallet at home.","財布を家に忘れた"]],null,[["ほっといて","___ me alone.","Leave"],["電車はもう出てしまった","The train has already ___.","left"]]],
+  ["say","said / said","言葉そのものを言う",[["What did she **say**?","彼女、何て言ってた？"],["I have to **say**, this is really good.","正直、これ本当においしいよ"]],null,[["何て言えばいいかわからない","I don't know what to ___.","say"],["もう一度言ってもらえますか","Could you ___ that again?","say"]]],
+  ["tell","told / told","相手に内容を伝える",[["**Tell** me about your trip!","旅行の話を聞かせて！"],["I can't **tell** the difference.","違いがわからない"]],"say は「言葉」に注目、tell は「相手に伝えること」に注目。tell は直後に人が来ます",[["本当のことを言って","___ me the truth.","Tell"],["電話するよう彼女に伝えてくれる？","Can you ___ her to call me?","tell"]]],
+  ["talk","talked","お互いに話す",[["Can we **talk** for a minute?","ちょっと話せる？"],["We **talked** for hours last night.","昨夜は何時間も話し込んだ"]],null,[["あとで話そう","Let's ___ later.","talk"],["何の話をしてるの？","What are you ___ about?","talking"]]],
+  ["ask","asked","たずねる・頼む",[["Can I **ask** you something?","ちょっと聞いてもいい？"],["I **asked** him to help me move.","彼に引っ越しの手伝いを頼んだ"]],null,[["道を聞いてみよう","Let's ___ for directions.","ask"],["彼女をデートに誘った","I ___ her out.","asked"]]],
+  ["explain","explained","わかるように説明する",[["Could you **explain** that again?","もう一度説明してもらえますか？"],["Let me **explain** what happened.","何があったか説明させて"]],"× explain me → ○ explain to me",[["理由を説明してくれる？","Can you ___ why?","explain"],["彼が私たちにルールを説明してくれた","He ___ the rules to us.","explained"]]],
+  ["mention","mentioned","話の中でふれる",[["You never **mentioned** that before!","そんなこと前は一言も言ってなかったじゃん！"],["Thanks for your help. — Don't **mention** it.","助けてくれてありがとう。— どういたしまして"]],null,[["それを言うのを忘れてた","I forgot to ___ it.","mention"],["先ほど申し上げたように","As I ___ earlier, ...","mentioned"]]],
+  ["agree","agreed","同意する",[["I totally **agree** with you.","完全に同意するよ"],["We **agreed** to meet at 7.","7時に会うことにした"]],null,[["それには賛成できない","I don't ___ with that.","agree"],["全員がその計画に賛成した","Everyone ___ to the plan.","agreed"]]],
+  ["suggest","suggested","提案する",[["What do you **suggest**?","何がおすすめ？"],["I **suggest** we leave early to avoid traffic.","渋滞を避けるため早めに出よう"]],null,[["いいレストランを教えてくれる？","Can you ___ a good restaurant?","suggest"],["彼は休憩を取ろうと提案した","He ___ taking a break.","suggested"]]],
+  ["think","thought / thought","考える・思う",[["I **think** it's going to rain.","雨が降りそうだね"],["Let me **think** about it.","ちょっと考えさせて"]],null,[["それはいい考えだと思う","I ___ that's a good idea.","think"],["何を考えてるの？","What are you ___ about?","thinking"]]],
+  ["know","knew / known","知っている",[["I **know** what you mean.","言いたいこと、わかるよ"],["You **know** what? I'm starving.","ねえ聞いて、お腹ペコペコ"]],null,[["わからない","I don't ___.","know"],["私の知る限りでは","As far as I ___, ...","know"]]],
+  ["feel","felt / felt","感じる",[["I don't **feel** like cooking tonight.","今夜は料理する気分じゃない"],["**Feel** free to ask me anything.","何でも気軽に聞いてね"]],null,[["気分はどう？","How do you ___?","feel"],["彼のことが気の毒だ","I ___ sorry for him.","feel"]]],
+  ["mean","meant / meant","意味する・本気で言う",[["What do you **mean**?","どういう意味？"],["I didn't **mean** to hurt you.","傷つけるつもりはなかったんだ"]],null,[["本気だよ","I ___ it.","mean"],["つまり、高すぎるってこと","I ___, it's too expensive.","mean"]]],
+  ["mind","minded","気にする・嫌がる",[["Do you **mind** if I sit here?","ここに座ってもいいですか？"],["Never **mind**. It's not important.","気にしないで。大したことじゃないから"]],"Do you mind...? に「どうぞ」と答えるときは No / Not at all（「気にしない」の意味になるため）",[["窓を開けてもいいですか？","Do you ___ if I open the window?","mind"],["待つのは構わないよ","I don't ___ waiting.","mind"]]],
+  ["wonder","wondered","〜かなと思う",[["I **wonder** what she's doing now.","彼女、今何してるのかな"],["I was **wondering** if you could help me.","手伝っていただけないかと思いまして"]],"I was wondering if... はとても丁寧な依頼の言い方です",[["どうして彼は来なかったのかな","I ___ why he didn't come.","wonder"],["どうりで疲れてるわけだ","No ___ you're tired.","wonder"]]],
+  ["remember","remembered","覚えている・思い出す",[["Do you **remember** her name?","彼女の名前、覚えてる？"],["**Remember** to lock the door.","忘れずに鍵をかけてね"]],null,[["誕生日を覚えていてくれたんだ！","You ___ my birthday!","remembered"],["彼に会ったことを覚えていない","I don't ___ meeting him.","remember"]]],
+  ["forget","forgot / forgotten","忘れる",[["I totally **forgot** about the meeting!","会議のこと完全に忘れてた！"],["**Forget** it. It doesn't matter.","もういいよ。どうでもいいことだから"]],null,[["忘れずに電話してね","Don't ___ to call me.","forget"],["パスワードを忘れた","I ___ my password.","forgot"]]],
+  ["worry","worried","心配する",[["Don't **worry** about it.","気にしないで"],["I'm **worried** about the exam.","試験が心配だ"]],null,[["心配しないで、大丈夫だから","Don't ___, I'm fine.","worry"],["彼女はいつも心配しすぎる","She always ___ too much.","worries"]]],
+  ["hope","hoped","望む・願う",[["I **hope** you feel better soon.","早く良くなるといいね"],["**Hope** to see you again!","また会えるといいな！"]],null,[["そうだといいね","I ___ so.","hope"],["楽しんでくれているといいな","I ___ you're enjoying it.","hope"]]],
+  ["see","saw / seen","自然と目に入る・会う・わかる",[["**See** you tomorrow!","また明日！"],["I **see**. That makes sense.","なるほど。納得"]],null,[["様子を見よう","Let's wait and ___.","see"],["最近彼女に会った？","Have you ___ her lately?","seen"]]],
+  ["look","looked","意識して目を向ける・〜に見える",[["**Look** at this!","これ見て！"],["You **look** tired. Are you okay?","疲れてるみたいだね。大丈夫？"]],null,[["鍵を探してるんだ","I'm ___ for my keys.","looking"],["楽しみにしてるね","I'm ___ forward to it.","looking"]]],
+  ["use","used","使う",[["Can I **use** your bathroom?","トイレをお借りしてもいいですか？"],["I'm not **used** to waking up early.","早起きには慣れていない"]],null,[["パソコンを使ってもいい？","Can I ___ your computer?","use"],["昔はここに住んでいた","I ___ to live here.","used"]]],
+  ["need","needed","必要とする",[["I **need** a break.","ひと休みしたい"],["You don't **need** to apologize.","謝らなくていいよ"]],null,[["手伝いはいる？","Do you ___ help?","need"],["もう行かなきゃ","I ___ to go now.","need"]]],
+  ["try","tried","試す・やってみる",[["You should **try** this cake.","このケーキ食べてみて"],["Can I **try** this on?","これ試着してもいいですか？"]],null,[["ベストを尽くすよ","I'll ___ my best.","try"],["新しいレストランに行ってみた","We ___ the new restaurant.","tried"]]],
+  ["wait","waited","待つ",[["**Wait** a second.","ちょっと待って"],["I can't **wait** for the weekend!","週末が待ちきれない！"]],null,[["少々お待ちください","Please ___ a moment.","wait"],["どのくらい待ってたの？","How long have you been ___?","waiting"]]],
+  ["check","checked","確認する",[["Let me **check** my schedule.","予定を確認させて"],["Can I **check** in now?","今チェックインできますか？"]],null,[["メールを確認させて","Let me ___ my email.","check"],["チェックアウトは何時ですか？","What time do we ___ out?","check"]]],
+  ["spend","spent / spent","時間やお金を使う",[["I **spent** the whole weekend at home.","週末はずっと家で過ごした"],["How much did you **spend** on that bag?","そのバッグにいくら使ったの？"]],null,[["家族と時間を過ごしたい","I want to ___ time with my family.","spend"],["服にお金を使いすぎた","I ___ too much money on clothes.","spent"]]],
+  ["pay","paid / paid","支払う",[["Can I **pay** by card?","カードで払えますか？"],["**Pay** attention to the details.","細かいところに注意を払って"]],null,[["私が払うよ","I'll ___.","pay"],["もう払った？","Have you ___ yet?","paid"]]],
+  ["stay","stayed","とどまる",[["**Stay** safe!","気をつけてね！"],["We **stayed** at a nice hotel in Kyoto.","京都の素敵なホテルに泊まった"]],null,[["今夜は家にいるよ","I'm ___ home tonight.","staying"],["連絡を取り合おうね","Let's ___ in touch.","stay"]]],
+  ["work","worked","働く・うまくいく",[["Does Friday **work** for you?","金曜日は都合いい？"],["This app doesn't **work**.","このアプリ動かない"]],"「機能する」「都合が合う」の意味で非常によく使います",[["どこで働いてるの？","Where do you ___?","work"],["うまくいった！","It ___!","worked"]]],
+  ["help","helped","手伝う・役立つ",[["Can I **help** you?","何かお手伝いしましょうか？／いらっしゃいませ"],["I can't **help** laughing.","笑わずにいられない"]],null,[["宿題を手伝ってくれる？","Can you ___ me with my homework?","help"],["ご自由にお取りください","___ yourself.","Help"]]],
+  ["start","started","始める",[["What time does the movie **start**?","映画は何時に始まる？"],["I **started** learning English last year.","去年英語の勉強を始めた"]],null,[["雨が降り始めた","It ___ raining.","started"],["さあ、始めよう","Let's get ___.","started"]]],
+  ["finish","finished","終える",[["Have you **finished** your homework?","宿題は終わった？"],["I just **finished** work.","ちょうど仕事が終わったところ"]],null,[["まだ食べ終わってない","I haven't ___ eating yet.","finished"],["何時に仕事が終わるの？","What time do you ___ work?","finish"]]],
+  ["change","changed","変える・着替える・両替する",[["I **changed** my mind.","気が変わった"],["Give me a minute to **change**.","着替えるからちょっと待って"]],null,[["電車を乗り換える必要があるよ","You need to ___ trains.","change"],["この街はずいぶん変わった","This town has ___ a lot.","changed"]]],
+  ["decide","decided","決める",[["I can't **decide** what to eat.","何を食べるか決められない"],["We **decided** to move to Osaka.","大阪に引っ越すことにした"]],null,[["まだ決めてない","I haven't ___ yet.","decided"],["決めるのはあなただよ","It's up to you to ___.","decide"]]],
+  ["handle","handled","対処する・扱う",[["Don't worry, I can **handle** it.","大丈夫、自分でなんとかできるよ"],["**Handle** with care.","取り扱い注意"]],null,[["このプレッシャーには耐えられない","I can't ___ the pressure.","handle"],["彼女はその状況にうまく対処した","She ___ the situation well.","handled"]]],
+  ["miss","missed","逃す・いなくて寂しい",[["I **missed** the last train.","終電を逃した"],["I **miss** you.","会いたいよ"]],null,[["お見逃しなく！","Don't ___ it!","miss"],["バスに乗り遅れた","I ___ the bus.","missed"]]],
+  ["catch","caught / caught","つかまえる・間に合う",[["I **caught** a cold.","風邪をひいた"],["Sorry, I didn't **catch** your name.","すみません、お名前を聞き取れませんでした"]],null,[["じゃあまたあとで！","___ you later!","Catch"],["次の電車に間に合った","I ___ the next train.","caught"]]],
+  ["run","ran / run","走る・運営する・〜が足りなくなる",[["I'm **running** late.","ちょっと遅れそう"],["We're **running** out of milk.","牛乳が切れそう"]],null,[["彼女は小さなカフェを経営している","She ___ a small café.","runs"],["時間がなくなってきた","We're ___ out of time.","running"]]],
+];
+
+// 主な意味: "意味|型" — 型（よく一緒に使う形）は任意。VERBS と同じ並び
+const SENSES = [
+  ["手に入れる・買う","もらう・受け取る","（場所に）着く|get to","〜になる|get + 形容詞","理解する・わかる","取ってくる","（乗り物に）乗る・降りる|get on / off","（病気に）かかる","〜してもらう|get + 人 + to do"],
+  ["取る・持っていく","連れていく","（時間が）かかる","（乗り物に）乗っていく","（薬を）飲む","（写真を）撮る","（授業・試験を）受ける","（休憩・行動を）とる|take a break"],
+  ["作る","〜させる|make + 人 + 動詞","〜にする|make + 人 + 形容詞","（お金を）稼ぐ","（間違い・予約・決定を）する","間に合う・うまくいく|make it","〜になる（素質がある）"],
+  ["持っている","食べる・飲む","経験する・過ごす","〜しなければならない|have to","〜してもらう・させる|have + 人 + 動詞","（家族・友人が）いる","（病気に）かかっている","（会議・パーティーを）開く"],
+  ["与える・あげる","渡す","（電話・連絡を）する|give + 人 + a call","（手を）貸す|give a hand","（スピーチ・発表を）する","（パーティーを）開く","諦める・やめる|give up"],
+  ["置く","入れる","着る・身につける|put on","延期する|put off","片付ける・しまう|put away","書く・記入する","言い表す|put it ...","我慢する|put up with"],
+  ["保つ・〜のままにする","取っておく・持っておく","〜し続ける|keep -ing","（約束・秘密を）守る","待たせる|keep + 人 + waiting","（ペットを）飼う","遅れずについていく|keep up"],
+  ["持ってくる","連れてくる","もたらす・引き起こす","（話題を）持ち出す|bring up","育てる|bring up","思い出させる・戻す|bring back"],
+  ["行く","（物事が）進む・運ぶ","〜になる（悪い状態に）|go bad / go wrong","（道が）通じる","なくなる・消える","合う・似合う|go with","〜しに行く|go -ing","〜するつもりだ|be going to"],
+  ["来る","（相手の所へ）行く","着く・届く","〜になる|come true","〜の出身である|come from","思いつく|come up with","帰ってくる|come back"],
+  ["〜させる・許す|let + 人 + 動詞","〜しよう|Let's","知らせる|let me know","中に入れる|let in","がっかりさせる|let down","手放す・放す|let go"],
+  ["出発する・去る","置き忘れる","残す・残しておく","〜のままにしておく","任せる|leave it to","（仕事・学校を）辞める","放っておく|leave alone"],
+  ["言う","（本・看板などに）書いてある","〜だそうだ|They say","例えば|say, ..."],
+  ["伝える・言う","話す・語る","教える|tell + 人 + how to","〜するように言う|tell + 人 + to do","見分ける・わかる|tell the difference","叱る|tell off"],
+  ["話す・しゃべる","相談する|talk to","話し合う|talk about","説得して〜させる|talk + 人 + into","口答えする|talk back"],
+  ["たずねる・質問する","頼む|ask + 人 + to do","求める|ask for","デートに誘う|ask out","招く|ask over","（代金を）請求する"],
+  ["説明する","理由を述べる・弁明する","〜の理由になる"],
+  ["言及する・話に出す","名前を挙げる","どういたしまして|Don't mention it","〜は言うまでもなく|not to mention"],
+  ["同意する・賛成する|agree with","承諾する|agree to","意見が一致する","取り決める|agree on","（食べ物・気候が）体に合う"],
+  ["提案する","勧める","ほのめかす","示す・示唆する"],
+  ["思う・考える","〜について考える|think about","〜を思いつく・思い出す|think of","よく考える|think over","予想する","〜とみなす"],
+  ["知っている","わかる・理解している","知り合いである","見分けがつく","ほら・あのね|you know"],
+  ["感じる","〜の気分である","触る・触って確かめる","〜したい気がする|feel like","〜の手触りがする","（〜と）思う|feel that ..."],
+  ["意味する","本気で言う","〜するつもりだ|mean to","重要である|mean a lot","〜という結果になる"],
+  ["嫌がる・気にする","〜しても構わない|I don't mind","気をつける|Mind your step","世話をする・見ておく"],
+  ["〜かなと思う","不思議に思う・驚く","〜していただけないでしょうか|I was wondering if"],
+  ["覚えている","思い出す","忘れずに〜する|remember to","〜したのを覚えている|remember -ing","よろしく伝える|remember me to"],
+  ["忘れる","置き忘れる","〜し忘れる|forget to","もういい・気にしない|Forget it"],
+  ["心配する","心配させる","悩む","困らせる"],
+  ["望む・願う","〜だといいと思う","期待する|hope for"],
+  ["見える・見る","会う","わかる","確かめる|see if","見送る|see off","付き合っている|be seeing","ええと|Let me see"],
+  ["見る","〜に見える","探す|look for","調べる|look up","世話をする|look after","楽しみにする|look forward to","尊敬する|look up to"],
+  ["使う","利用する","消費する","使い切る|use up","以前は〜していた|used to","慣れている|be used to"],
+  ["必要とする","〜する必要がある|need to","〜される必要がある|need -ing"],
+  ["試す・やってみる","〜しようと努力する|try to","食べて（飲んで）みる","試着する|try on"],
+  ["待つ","待ちきれない|can't wait","寝ずに待つ|wait up","給仕する|wait on"],
+  ["確認する・調べる","点検する","チェックインする|check in","チェックアウトする・借りる|check out","様子を見る|check on","（荷物を）預ける"],
+  ["（お金を）使う","（時間を）過ごす","（労力を）費やす"],
+  ["払う","割に合う・もうかる","（注意を）払う|pay attention","訪問する|pay a visit","返済する・仕返しする|pay back"],
+  ["とどまる・いる","泊まる","〜のままでいる|stay + 形容詞","夜更かしする|stay up","近づかない|stay away"],
+  ["働く","勉強する・取り組む","（機械が）動く","うまくいく・効果がある","都合がいい","解決する・運動する|work out"],
+  ["手伝う・助ける","役立つ","（症状を）和らげる","自由に取る|help yourself","〜せずにいられない|can't help -ing"],
+  ["始める・始まる","出発する","（エンジンを）かける","（事業を）起こす","びくっとする"],
+  ["終える・終わる","食べ（飲み）終える","仕上げる","使い切る"],
+  ["変える・変わる","着替える","乗り換える","両替する","交換する","（シーツ・おむつを）替える"],
+  ["決める・決心する","決定する・判断する","（勝敗を）決める"],
+  ["扱う・処理する","対処する・こなす","手で触る","担当する"],
+  ["乗り遅れる・逃す","いなくて寂しく思う","見逃す・聞き逃す","（的を）外す","欠席する","〜がないのに気づく"],
+  ["捕まえる","（乗り物に）間に合う","（病気に）かかる","聞き取る・理解する","（偶然）見つける・目撃する","追いつく・近況を話す|catch up"],
+  ["走る","経営する・運営する","（機械・アプリが）動く","（バス・電車が）運行する","立候補する","流れる","〜が足りなくなる|run out of","偶然出会う|run into"],
+];
+
+// 全文英訳: [日本語, 模範解答] — VERBS と同じ並び
+const TR = [
+  ["仕事に行く準備をしなきゃ。","I need to get ready for work."],
+  ["ゆっくりでいいよ。","Take your time."],
+  ["友達を作るのは簡単じゃない。","It's not easy to make friends."],
+  ["今日はやることがたくさんある。","I have a lot of things to do today."],
+  ["諦めないで。","Don't give up."],
+  ["スマホをしまって。","Put your phone away."],
+  ["これからも連絡を取り合おうね。","Let's keep in touch."],
+  ["明日はお弁当を持ってきてね。","Bring your lunch tomorrow."],
+  ["もう寝る時間だよ。","It's time to go to bed."],
+  ["パーティーに来られる？","Can you come to the party?"],
+  ["がっかりさせないでね。","Don't let me down."],
+  ["伝言を残されますか？","Would you like to leave a message?"],
+  ["彼は明日来るって言ってたよ。","He said he would come tomorrow."],
+  ["駅への行き方を教えてもらえますか？","Could you tell me how to get to the station?"],
+  ["彼女と話したことある？","Have you ever talked to her?"],
+  ["質問してもいいですか？","May I ask a question?"],
+  ["言葉で説明するのは難しい。","It's hard to explain in words."],
+  ["言い忘れてたけど、明日は休みなんだ。","I forgot to mention that I'm off tomorrow."],
+  ["その点については賛成です。","I agree with you on that point."],
+  ["少し休んだほうがいいよ。","I suggest you get some rest."],
+  ["あなたはどう思う？","What do you think?"],
+  ["彼女のことはよく知らない。","I don't know her very well."],
+  ["今日はだいぶ気分がいい。","I feel much better today."],
+  ["そういう意味じゃなかったんだ。","That's not what I meant."],
+  ["ちょっと手伝ってもらえませんか？","Would you mind helping me?"],
+  ["明日は晴れるかなあ。","I wonder if it will be sunny tomorrow."],
+  ["どこに車を停めたか思い出せない。","I can't remember where I parked the car."],
+  ["傘を持ってくるのを忘れた。","I forgot to bring my umbrella."],
+  ["心配しすぎないで。","Don't worry too much."],
+  ["試験に受かるといいね。","I hope you pass the exam."],
+  ["あの映画もう見た？","Have you seen that movie yet?"],
+  ["お母さんに似てるね。","You look like your mother."],
+  ["このアプリの使い方を教えて。","Tell me how to use this app."],
+  ["もう少し時間が必要だ。","I need a little more time."],
+  ["もう一度やってみて。","Try it again."],
+  ["列に並んで待たなければならなかった。","We had to wait in line."],
+  ["天気予報は確認した？","Did you check the weather forecast?"],
+  ["週末はどう過ごしたの？","How did you spend your weekend?"],
+  ["現金で払ってもいいですか？","Can I pay in cash?"],
+  ["夜更かししすぎないでね。","Don't stay up too late."],
+  ["彼は銀行で働いている。","He works at a bank."],
+  ["助けてくれてありがとう。","Thank you for helping me."],
+  ["会議は何時に始まりますか？","What time does the meeting start?"],
+  ["昨日この本を読み終えた。","I finished reading this book yesterday."],
+  ["この1万円札を両替してもらえますか？","Could you change this 10,000-yen bill?"],
+  ["留学することに決めた。","I decided to study abroad."],
+  ["その件は私が対応します。","I'll handle it."],
+  ["あなたがいなくなると寂しくなるよ。","I'll miss you."],
+  ["始発に間に合うように早起きした。","I got up early to catch the first train."],
+  ["毎朝公園を走っている。","I run in the park every morning."],
+];
+
+const KEY = "everyday-verbs-checks";
+let checks = {};
+try { checks = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(checks)); } catch (e) {} };
+
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const bold = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+const red = s => `<span class="red" tabindex="0">${s}</span>`;
+
+function question([ja, en, ans], n) {
+  const [a, b] = en.split("___");
+  return `<div class="q"><span class="q-n">${n}</span><span class="q-ja">${esc(ja)}</span>
+    <span class="q-en">${esc(a)}${red(esc(ans))}${esc(b)}</span></div>`;
+}
+
+function entry(v, i) {
+  const [verb, forms, core, ex, tip, qs] = v;
+  const c = checks[verb] || [0, 0, 0];
+  return `<article class="entry">
+    <div class="no">
+      <span class="no-num">${String(i + 1).padStart(3, "0")}</span>
+      <span class="boxes">${c.map((on, k) => `<button class="box" type="button" data-verb="${esc(verb)}" data-k="${k}" aria-pressed="${!!on}" aria-label="${k + 1}回目の復習"></button>`).join("")}</span>
+    </div>
+    <div class="head">
+      <span class="verb">${esc(verb)}</span>
+      <span class="forms">${esc(forms)}</span>
+      <span class="core">${esc(core)}</span>
+      <ol class="senses">${SENSES[i].map((x, k) => { const [m, f] = x.split("|"); return `<li><span class="s-n">${"①②③④⑤⑥⑦⑧⑨"[k]}</span><span>${f ? `<span class="s-f">${esc(f)}</span>` : ""}${red(esc(m))}</span></li>`; }).join("")}</ol>
+    </div>
+    <div class="body">
+      <ul class="ex">${ex.map(([en, ja]) => `<li><span class="en">${bold(en)}</span><span class="ja">${esc(ja)}</span></li>`).join("")}</ul>
+      ${tip ? `<p class="note">${esc(tip)}</p>` : ""}
+      <div class="drill">
+        <span class="drill-label">確認問題　空欄に入る語は？</span>${qs.map((q, n) => question(q, n + 1)).join("")}
+        <span class="drill-label">全文英訳　日本語を英語にしよう</span>
+        <div class="q"><span class="q-n">3</span><span class="q-ja">${esc(TR[i][0])}</span>
+          <span class="q-en tr">${red(esc(TR[i][1]))}</span></div>
+      </div>
+    </div>
+  </article>`;
+}
+
+function tally() {
+  const r = [0, 1, 2].map(k => VERBS.filter(v => (checks[v[0]] || [])[k]).length);
+  document.getElementById("tally").textContent = `1回目 ${r[0]} ・ 2回目 ${r[1]} ・ 3回目 ${r[2]} / 50`;
+}
+
+function render() {
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  const match = (v, i) => !q || [v[0], v[1], v[2], v[4] || "", ...v[3].flat(), ...v[5].flat(), ...TR[i], ...SENSES[i]].join(" ").toLowerCase().includes(q);
+  const items = VERBS.map((v, i) => [v, i]).filter(([v, i]) => match(v, i));
+  document.getElementById("list").innerHTML = items.length
+    ? items.map(([v, i]) => entry(v, i)).join("")
+    : `<p class="empty">「${esc(q)}」に一致する動詞はありません。</p>`;
+  tally();
+}
+
+const sheetBtn = document.getElementById("sheet");
+document.body.classList.add("sheet");
+sheetBtn.addEventListener("click", () => {
+  const on = document.body.classList.toggle("sheet");
+  sheetBtn.setAttribute("aria-pressed", on);
+  document.querySelectorAll(".red.shown").forEach(el => el.classList.remove("shown"));
+});
+
+document.getElementById("q").addEventListener("input", render);
+const reveal = el => { if (document.body.classList.contains("sheet")) el.classList.toggle("shown"); };
+document.getElementById("list").addEventListener("click", e => {
+  const box = e.target.closest(".box");
+  if (box) {
+    const v = box.dataset.verb, k = +box.dataset.k;
+    const c = checks[v] || [0, 0, 0];
+    c[k] = c[k] ? 0 : 1; checks[v] = c;
+    box.setAttribute("aria-pressed", !!c[k]);
+    save(); tally(); return;
+  }
+  const r = e.target.closest(".red");
+  if (r) reveal(r);
+});
+document.getElementById("list").addEventListener("keydown", e => {
+  const r = e.target.closest(".red");
+  if (r && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); reveal(r); }
+});
+
+render();
+</script>
+</body>
+</html>
